@@ -1,6 +1,6 @@
 {
   "name": "pinecone-hackathon",
-  "version": "1.0.1-0",
+  "version": "1.0.1",
   "description": "Pinecone Hackhaton project",
   "main": "lib/index.js",
   "repository": "https://github.com/statechangelabs/pinecone-hackathon.git",
