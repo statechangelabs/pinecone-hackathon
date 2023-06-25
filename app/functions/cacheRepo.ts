@@ -7,7 +7,9 @@ export const handler: Handler = async (
   context: HandlerContext
 ) => {
   try {
-    const result = await execAsync("git --help");
+    const list = await execAsync("ls -la");
+    console.log(list);
+    const result = await execAsync("./git --help");
     const data = { result, event, context };
     return { statusCode: 200, body: JSON.stringify({ data }) };
   } catch (error) {

@@ -28,27 +28,24 @@ export default function RepoList() {
             </div>
             <div className="hidden sm:flex sm:flex-col sm:items-end">
               {/* <p className="text-sm leading-6 text-gray-900">{repo.status}</p> */}
-              {repo.lastModified ? (
-                <p className="mt-1 text-xs leading-5 text-gray-500">
-                  <time dateTime={new Date(repo.lastModified).toISOString()}>
-                    {new Date(repo.lastModified).toLocaleString()}
-                  </time>
-                </p>
-              ) : (
-                <div className="mt-1 flex items-center gap-x-1.5">
-                  <div className="flex-none rounded-full bg-emerald-500/20 p-1">
-                    {repo.status === "ready" && (
-                      <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                    )}
-                    {repo.status !== "ready" && (
-                      <div className="h-1.5 w-1.5 rounded-full bg-yellow-500" />
-                    )}
-                  </div>
-                  <p className="text-xs leading-5 text-gray-500">
-                    {repo.status}
-                  </p>
+
+              <p className="mt-1 text-xs leading-5 text-gray-500">
+                <time dateTime={new Date(repo.lastModified).toISOString()}>
+                  {new Date(repo.lastModified).toLocaleString()}
+                </time>
+              </p>
+
+              <div className="mt-1 flex items-center gap-x-1.5">
+                <div className="flex-none rounded-full bg-emerald-500/20 p-1">
+                  {repo.status === "ready" && (
+                    <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                  )}
+                  {repo.status !== "ready" && (
+                    <div className="h-1.5 w-1.5 rounded-full bg-yellow-500" />
+                  )}
                 </div>
-              )}
+                <p className="text-xs leading-5 text-gray-500">{repo.status}</p>
+              </div>
             </div>
           </li>
         ))}
@@ -79,7 +76,7 @@ const AddRepo: FC = () => {
               htmlFor="email"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
-              Git Link ()
+              Git Link
             </label>
             <div className="mt-2">
               <Field
