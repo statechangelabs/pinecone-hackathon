@@ -9,6 +9,16 @@ import { Document } from "langchain/document";
 import { ConversationalRetrievalQAChain } from "langchain/chains";
 import { ChatOpenAI } from "langchain/chat_models/openai";
 import { BufferMemory } from "langchain/memory";
+import { Octokit } from "@octokit/rest";
+
+export const searchGH = async (query: string) => {
+  const octokit = new Octokit({});
+  // const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+  const res = await octokit.search.repos({ q: query });
+  const { items } = res.data;
+  const first = items[0];
+  return first.git_url;
+};
 
 const walk: (dirPath: string) => Promise<string[]> = async (dirPath) =>
   Promise.all(
@@ -32,6 +42,8 @@ export const flushRepo = async (
 export const getRepoFromUrl = async (sourceUrl: string) => {
   //dude if this is already github, just return it
   if (sourceUrl.startsWith("https://github.com")) return sourceUrl;
+  if (sourceUrl.endsWith(".git")) return sourceUrl;
+
   const body = await fetch(sourceUrl).then((res) => res.text());
   const urls = [
     ...body.matchAll(

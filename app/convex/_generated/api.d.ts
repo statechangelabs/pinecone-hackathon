@@ -10,7 +10,8 @@
  */
 
 import type { ApiFromModules } from "convex/server";
-import type * as testme from "../testme";
+import type * as actions from "../actions";
+import type * as mutations from "../mutations";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -21,5 +22,6 @@ import type * as testme from "../testme";
  * ```
  */
 export declare const api: ApiFromModules<{
-  testme: typeof testme;
+  actions: typeof actions;
+  mutations: typeof mutations;
 }>;

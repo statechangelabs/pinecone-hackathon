@@ -2,7 +2,7 @@
   "name": "pinecone-hackathon",
   "version": "1.0.0",
   "description": "Pinecone Hackhaton project",
-  "main": "dist/index.js",
+  "main": "lib/index.js",
   "repository": "https://github.com/statechangelabs/pinecone-hackathon.git",
   "author": "Akshay Rakheja <a3rakhej@uwaterloo.ca>",
   "license": "MIT",
@@ -11,6 +11,7 @@
     "build": "tsc"
   },
   "dependencies": {
+    "@octokit/rest": "^19.0.13",
     "@pinecone-database/pinecone": "^0.1.6",
     "autoprefixer": "^10.4.14",
     "commander": "^11.0.0",

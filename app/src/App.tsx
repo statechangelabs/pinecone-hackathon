@@ -44,7 +44,7 @@ function App() {
 
 const Welcome = () => {
   const [count, setCount] = useState(0);
-  const testAction = useAction(api.testme.myAction);
+  const testAction = useAction(api.actions.myAction);
   const { userId } = useAuth();
   return (
     <Fragment>

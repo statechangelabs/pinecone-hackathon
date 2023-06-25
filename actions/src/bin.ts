@@ -5,6 +5,7 @@ import {
   getRepoFromUrl,
   indexRepo,
   runPrompt,
+  searchGH,
 } from "./scraper.js";
 
 import { Command } from "commander";
@@ -39,6 +40,11 @@ command.command("flush <sourceUrl>").action(async (sourceUrl) => {
   }
   flushRepo(repoUrl);
   deIndexRepo(repoUrl);
+});
+
+command.command("search <query>").action(async (query) => {
+  const first = await searchGH(query);
+  console.log(first);
 });
 
 command
