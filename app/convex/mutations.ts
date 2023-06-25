@@ -13,7 +13,7 @@ export const myMutationFunction = mutation({
     // Insert or modify documents in the database here.
     // Mutations can also read from the database like queries.
     // See https://docs.convex.dev/database/writing-data.
-
+    console.log({ url, platform, query });
     const me = await auth.getUserIdentity();
     const id = await db.insert("requests", {
       platform,

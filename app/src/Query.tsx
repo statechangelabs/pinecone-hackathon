@@ -1,6 +1,6 @@
 import { Formik, Form, Field } from "formik";
 import { FC } from "react";
-import { useQuery, useMutation } from "convex/react";
+import { useMutation } from "convex/react";
 import { api } from "../convex/_generated/api";
 const Query: FC = () => {
   const addAThing = useMutation(api.mutations.myMutationFunction);

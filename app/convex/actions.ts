@@ -5,7 +5,7 @@ import { v } from "convex/values";
 import {
   cacheRepo,
   indexRepo,
-  runPrompt,
+  //   runPrompt,
   getRepoFromUrl,
 } from "pinecone-hackathon";
 
@@ -27,7 +27,7 @@ export const cacheRepoAction = action({
   args: {
     url: v.string(),
   },
-  async handler(ctx, { url }) {
+  async handler(_, { url }) {
     const repoUrl = await getRepoFromUrl(url);
     if (!repoUrl) {
       throw new Error("Invalid repo url");
