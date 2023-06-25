@@ -18,7 +18,6 @@ import { api } from "../convex/_generated/api";
 const client = new ConvexReactClient(import.meta.env.VITE_CONVEX_URL);
 
 const clerkPubKey = import.meta.env.VITE_REACT_APP_CLERK_PUBLISHABLE_KEY;
-console.log("clerkPubKey", clerkPubKey);
 function App() {
   return (
     <BrowserRouter>
