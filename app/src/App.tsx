@@ -14,6 +14,7 @@ import Query from "./Query";
 import { ConvexReactClient, useAction } from "convex/react";
 import { ConvexProviderWithClerk } from "convex/react-clerk";
 import { api } from "../convex/_generated/api";
+import Logo from "./Logo";
 
 const client = new ConvexReactClient(import.meta.env.VITE_CONVEX_URL);
 
@@ -24,8 +25,17 @@ function App() {
       <ClerkProvider publishableKey={clerkPubKey}>
         <SignedIn>
           <ConvexProviderWithClerk client={client}>
-            <UserButton />
-
+            <div className="flex flex-row justify-between w-full">
+              <div className="flex flex-row">
+                <Logo className="w-10 h-10" />
+                <h1 className="text-2xl font-bold text-gray-100 ml-2">
+                  No-Code AI Helper
+                </h1>
+              </div>
+              <div className="pt-2">
+                <UserButton />
+              </div>
+            </div>
             <Routes>
               <Route path="/" element={<Welcome />} />
               <Route path="/query" element={<Query />} />
