@@ -31,20 +31,36 @@ export const cacheRepoAction = action({
     }
     const repo = await ctx.runQuery(api.repos.getByUrl, { url });
     if (!repo) {
-      ctx.runMutation(api.repos.update, {
-        url: repoUrl,
-        status: "fetching",
-      });
-      await cacheRepo(repoUrl);
-      ctx.runMutation(api.repos.update, {
-        url: repoUrl,
-        status: "indexing",
-      });
-      await indexRepo(repoUrl);
-      ctx.runMutation(api.repos.update, {
-        url: repoUrl,
-        status: "ready",
-      });
+      console.log("This repo does not yet exist in cache", repoUrl);
+      fetch(
+        "https://xw8v-tcfi-85ay.n7.xano.io/api:easylambda/run/3d09b484-b949-469e-9399-f272299c3295",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization:
+              "Bearer YjEwZjE2OWUtNjc3ZS00MWM2LWJmYjQtMzEwYmIyZTRiMjRl",
+          },
+          body: JSON.stringify({ url: repoUrl }),
+        }
+      );
+      await new Promise((res) => setTimeout(res, 1000));
+      //   ctx.runMutation(api.repos.update, {
+      //     url: repoUrl,
+      //     status: "fetching",
+      //   });
+      //   await cacheRepo(repoUrl);
+      //   ctx.runMutation(api.repos.update, {
+      //     url: repoUrl,
+      //     status: "indexing",
+      //   });
+      //   await indexRepo(repoUrl);
+      //   ctx.runMutation(api.repos.update, {
+      //     url: repoUrl,
+      //     status: "ready",
+      //   });
+    } else {
+      console.log("This already exists", repoUrl);
     }
   },
 });
