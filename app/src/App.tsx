@@ -10,7 +10,6 @@ import {
   useAuth,
 } from "@clerk/clerk-react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Query from "./Query";
 import { ConvexReactClient, useAction } from "convex/react";
 import { ConvexProviderWithClerk } from "convex/react-clerk";
 import { api } from "../convex/_generated/api";
