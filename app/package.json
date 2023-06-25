@@ -16,7 +16,7 @@
     "autoprefixer": "^10.4.14",
     "convex": "^0.17.1",
     "formik": "^2.4.2",
-    "pinecone-hackathon": "../actions",
+    "pinecone-hackathon": "../actions/package.tgz",
     "postcss": "^8.4.24",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
