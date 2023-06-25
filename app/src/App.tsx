@@ -37,8 +37,8 @@ function App() {
               </div>
             </div>
             <Routes>
-              <Route path="/" element={<Welcome />} />
-              <Route path="/query" element={<Query />} />
+              <Route path="/welcome" element={<Welcome />} />
+              <Route path="/" element={<Query />} />
             </Routes>
           </ConvexProviderWithClerk>
         </SignedIn>
