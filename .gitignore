@@ -1,2 +1,7 @@
 
 app/.env
+node_modules/
+.venv/
+.hypothesis/
+
+.env
