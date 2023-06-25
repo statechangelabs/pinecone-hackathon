@@ -10,4 +10,10 @@ export default defineSchema({
     url: v.string(),
     // query2: v.string(),
   }),
+  repos: defineTable({
+    key: v.string(),
+    lastModified: v.number(),
+    status: v.string(),
+    url: v.string(),
+  }),
 });

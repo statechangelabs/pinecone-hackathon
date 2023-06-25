@@ -14,11 +14,7 @@ export const myAction = action({
   handler: async (ctx, args) => {
     const me = await ctx.auth.getUserIdentity();
     console.log("Hello there this is ray", args, me?.email);
-    ctx.runMutation(api.mutations.myMutationFunction, {
-      url: "hello",
-      platform: "world",
-      query: "ray" + new Date().toISOString(),
-    });
+
     return { message: "Hello there this is ray" };
   },
 });
@@ -27,12 +23,27 @@ export const cacheRepoAction = action({
   args: {
     url: v.string(),
   },
-  async handler(_, { url }) {
+  async handler(ctx, { url }) {
     const repoUrl = await getRepoFromUrl(url);
     if (!repoUrl) {
       throw new Error("Invalid repo url");
     }
-    await cacheRepo(repoUrl);
-    await indexRepo(repoUrl);
+    const repo = await ctx.runQuery(api.queries.checkRepo, { url });
+    if (!repo) {
+      ctx.runMutation(api.mutations.updateRepo, {
+        url: repoUrl,
+        status: "fetching",
+      });
+      await cacheRepo(repoUrl);
+      ctx.runMutation(api.mutations.updateRepo, {
+        url: repoUrl,
+        status: "indexing",
+      });
+      await indexRepo(repoUrl);
+      ctx.runMutation(api.mutations.updateRepo, {
+        url: repoUrl,
+        status: "ready",
+      });
+    }
   },
 });
