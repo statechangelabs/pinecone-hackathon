@@ -1,6 +1,6 @@
 {
   "name": "pinecone-hackathon",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Pinecone Hackhaton project",
   "main": "lib/index.js",
   "repository": "https://github.com/statechangelabs/pinecone-hackathon.git",
@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "start": "tsc && node --enable-source-maps lib/bin.js",
-    "build": "tsc && yarn pack -f package.tgz"
+    "build": "tsc && yarn version --patch && yarn pack -f package.tgz"
   },
   "dependencies": {
     "@octokit/rest": "^19.0.13",
