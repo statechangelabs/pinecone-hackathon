@@ -24,23 +24,24 @@ export const cacheRepoAction = action({
     url: v.string(),
   },
   async handler(ctx, { url }) {
+    console.log("Starting with url", url);
     const repoUrl = await getRepoFromUrl(url);
     if (!repoUrl) {
       throw new Error("Invalid repo url");
     }
-    const repo = await ctx.runQuery(api.queries.checkRepo, { url });
+    const repo = await ctx.runQuery(api.repos.getByUrl, { url });
     if (!repo) {
-      ctx.runMutation(api.mutations.updateRepo, {
+      ctx.runMutation(api.repos.update, {
         url: repoUrl,
         status: "fetching",
       });
       await cacheRepo(repoUrl);
-      ctx.runMutation(api.mutations.updateRepo, {
+      ctx.runMutation(api.repos.update, {
         url: repoUrl,
         status: "indexing",
       });
       await indexRepo(repoUrl);
-      ctx.runMutation(api.mutations.updateRepo, {
+      ctx.runMutation(api.repos.update, {
         url: repoUrl,
         status: "ready",
       });

@@ -15,6 +15,8 @@ import { ConvexReactClient, useAction } from "convex/react";
 import { ConvexProviderWithClerk } from "convex/react-clerk";
 import { api } from "../convex/_generated/api";
 import Logo from "./Logo";
+import RepoList from "./Repos";
+import { ToastContainer } from "react-toastify";
 
 const client = new ConvexReactClient(import.meta.env.VITE_CONVEX_URL);
 
@@ -38,7 +40,7 @@ function App() {
             </div>
             <Routes>
               <Route path="/welcome" element={<Welcome />} />
-              <Route path="/" element={<Query />} />
+              <Route path="/" element={<RepoList />} />
             </Routes>
           </ConvexProviderWithClerk>
         </SignedIn>
@@ -46,6 +48,7 @@ function App() {
           <RedirectToSignIn />
         </SignedOut>
       </ClerkProvider>
+      <ToastContainer />
     </BrowserRouter>
   );
 }

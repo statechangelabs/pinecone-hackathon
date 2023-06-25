@@ -25,18 +25,3 @@ export const myMutationFunction = mutation({
     return await db.get(id);
   },
 });
-export const updateRepo = mutation({
-  args: {
-    url: v.string(),
-    status: v.string(),
-  },
-  async handler({ db }, { url, status }) {
-    const id = await db.insert("repos", {
-      key: url,
-      lastModified: Date.now(),
-      status,
-      url,
-    });
-    return await db.get(id);
-  },
-});
