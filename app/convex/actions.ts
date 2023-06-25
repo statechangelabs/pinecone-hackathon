@@ -7,7 +7,7 @@ import {
   indexRepo,
   //   runPrompt,
   getRepoFromUrl,
-} from "pinecone-hackathon";
+} from "@raydeck/pinecone-hackathon";
 
 export const myAction = action({
   // Validators for arguments.
