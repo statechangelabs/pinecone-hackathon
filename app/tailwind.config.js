@@ -4,5 +4,5 @@ export default {
   theme: {
     extend: { fontFamily: { sans: ["Inter var", "sans-serif"] } },
   },
-  plugins: [require("@tailwindcss/forms")],
+  plugins: [require("@tailwindcss/forms"), require("@tailwindcss/typography")],
 };

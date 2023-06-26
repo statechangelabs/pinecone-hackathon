@@ -7,6 +7,7 @@ import {
   indexRepo,
   //   runPrompt,
   getRepoFromUrl,
+  runPrompt,
 } from "@raydeck/pinecone-hackathon";
 
 export const myAction = action({
@@ -18,7 +19,55 @@ export const myAction = action({
     return { message: "Hello there this is ray" };
   },
 });
+export const queryRepoAction = action({
+  args: {
+    id: v.id("repos"),
+    question: v.string(),
+    platform: v.string(),
+  },
+  handler: async (ctx, { id, question, platform }) => {
+    console.log("I will start by getting the item in question", question);
+    console.log("Great, now I will get the repo");
 
+    const repo = await ctx.runQuery(api.repos.get, { id });
+    console.log("I got the repo of ", repo);
+    if (!repo) throw new Error("Repo not found");
+    const record = await ctx.runMutation(api.anothertable.add, {
+      name: repo.url,
+      platform,
+      question,
+      reply: "I don't know yet",
+    });
+    if (!record) throw new Error("Record not found");
+    const recordId = record._id;
+    return recordId;
+});
+export const runPromptAction = action({
+    args: {
+        url: v.string(),
+        question: v.string(),
+        platform: v.string(),
+        recordId: v.id("anothertable"),
+    },
+    async handler(ctx, { url, question, platform, recordId }) {
+
+    let output = "";
+    const result = await runPrompt(
+      question,
+      url,
+      platform as "weweb" | "webflow",
+      (token) => {
+        output += token;
+        ctx.runMutation(api.anothertable.update, {
+          id: recordId,
+          reply: output,
+        });
+      }
+    );
+
+    return { result };
+  },
+});
 export const cacheRepoAction = action({
   args: {
     url: v.string(),

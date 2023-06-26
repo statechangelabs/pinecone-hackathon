@@ -9,13 +9,14 @@ import {
   UserButton,
   useAuth,
 } from "@clerk/clerk-react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { ConvexReactClient, useAction } from "convex/react";
 import { ConvexProviderWithClerk } from "convex/react-clerk";
 import { api } from "../convex/_generated/api";
 import Logo from "./Logo";
 import RepoList from "./Repos";
 import { ToastContainer } from "react-toastify";
+import Repo from "./Repo";
 
 const client = new ConvexReactClient(import.meta.env.VITE_CONVEX_URL);
 
@@ -27,12 +28,12 @@ function App() {
         <SignedIn>
           <ConvexProviderWithClerk client={client}>
             <div className="flex flex-row justify-between w-full">
-              <div className="flex flex-row">
+              <Link to="/" className="flex flex-row">
                 <Logo className="w-10 h-10" />
                 <h1 className="text-2xl font-bold text-gray-100 ml-2">
                   No-Code AI Helper
                 </h1>
-              </div>
+              </Link>
               <div className="pt-2">
                 <UserButton />
               </div>
@@ -40,6 +41,7 @@ function App() {
             <Routes>
               <Route path="/welcome" element={<Welcome />} />
               <Route path="/" element={<RepoList />} />
+              <Route path="/repo/:id" element={<Repo />} />
             </Routes>
           </ConvexProviderWithClerk>
         </SignedIn>

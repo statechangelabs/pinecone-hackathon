@@ -282,7 +282,8 @@ export const deIndexRepo = async (url: string) => {
 export const runPrompt = async (
   query: string,
   repoUrl: string,
-  platform: "webflow" | "weweb"
+  platform: "webflow" | "weweb",
+  callback?: (token: string) => void
 ) => {
   const store = await getStore(urlToKey(repoUrl));
   const retriever = store.asRetriever();
@@ -309,7 +310,13 @@ export const runPrompt = async (
   const chain = ConversationalRetrievalQAChain.fromLLM(model, retriever, {
     memory: new BufferMemory({ memoryKey: "chat_history" }),
   });
-  const res = await chain.call({ question: question });
+  const res = await chain.call({ question: question }, [
+    {
+      handleLLMNewToken(token: string) {
+        callback && callback(token);
+      },
+    },
+  ]);
   console.log("Response from chain", res);
   const text: string = res.text;
   //lets check for markdown code

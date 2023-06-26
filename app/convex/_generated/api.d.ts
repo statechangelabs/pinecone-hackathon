@@ -11,6 +11,7 @@
 
 import type { ApiFromModules } from "convex/server";
 import type * as actions from "../actions";
+import type * as anothertable from "../anothertable";
 import type * as http from "../http";
 import type * as mutations from "../mutations";
 import type * as repos from "../repos";
@@ -25,6 +26,7 @@ import type * as repos from "../repos";
  */
 export declare const api: ApiFromModules<{
   actions: typeof actions;
+  anothertable: typeof anothertable;
   http: typeof http;
   mutations: typeof mutations;
   repos: typeof repos;

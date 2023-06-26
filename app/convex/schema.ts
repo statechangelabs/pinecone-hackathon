@@ -16,4 +16,10 @@ export default defineSchema({
     status: v.string(),
     url: v.string(),
   }),
+  anothertable: defineTable({
+    key: v.string(),
+    platform: v.string(),
+    question: v.string(),
+    reply: v.string(),
+  }),
 });
