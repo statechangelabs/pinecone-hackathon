@@ -290,6 +290,7 @@ export const runPrompt = async (
   const model = new ChatOpenAI({
     temperature: 0.9,
     modelName: "gpt-4-0613",
+    streaming: true,
   });
   const questions = {
     webflow: `Make an HTML <script> tag to satisfy the following request:
@@ -306,13 +307,18 @@ export const runPrompt = async (
   };
   let question = questions[platform];
   question = question.replace("{query}", query);
-  console.log("Question", question);
+  console.log("Question I wonder", question);
   const chain = ConversationalRetrievalQAChain.fromLLM(model, retriever, {
     memory: new BufferMemory({ memoryKey: "chat_history" }),
   });
   const res = await chain.call({ question: question }, [
     {
+      handleText: (text: string) => {
+        console.log("Got text", text);
+        callback && callback(text + "GGGGGG");
+      },
       handleLLMNewToken(token: string) {
+        console.log("Firing a callback based on getting a new token", token);
         callback && callback(token);
       },
     },

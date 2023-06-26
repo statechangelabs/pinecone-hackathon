@@ -1,5 +1,5 @@
 "use node";
-import { action } from "./_generated/server";
+import { action, internalAction } from "./_generated/server";
 import { api } from "./_generated/api";
 import { v } from "convex/values";
 import {
@@ -36,34 +36,51 @@ export const queryRepoAction = action({
       name: repo.url,
       platform,
       question,
-      reply: "I don't know yet",
+      reply: "",
     });
     if (!record) throw new Error("Record not found");
     const recordId = record._id;
-    return recordId;
+    console.log("I got the record of ", record);
+    ctx.runAction(api.actions.runPromptAction, {
+      url: repo.url,
+      question,
+      platform,
+      recordId,
+    });
+    await new Promise((r) => setTimeout(r, 1000));
+    console.log("leaving queryrepoaction");
+    const __id = recordId as string;
+    return { id: __id };
+  },
 });
-export const runPromptAction = action({
-    args: {
-        url: v.string(),
-        question: v.string(),
-        platform: v.string(),
-        recordId: v.id("anothertable"),
-    },
-    async handler(ctx, { url, question, platform, recordId }) {
-
+export const runPromptAction = internalAction({
+  args: {
+    url: v.string(),
+    question: v.string(),
+    platform: v.string(),
+    recordId: v.id("anothertable"),
+  },
+  async handler(ctx, { url, question, platform, recordId }) {
+    console.log("Starting runpromptaction");
     let output = "";
     const result = await runPrompt(
       question,
       url,
       platform as "weweb" | "webflow",
       (token) => {
-        output += token;
+        console.log("I got a new token in here", token);
+        output = output + token;
+        console.log("I think output should be", output);
         ctx.runMutation(api.anothertable.update, {
           id: recordId,
           reply: output,
         });
       }
     );
+    await ctx.runMutation(api.anothertable.update, {
+      id: recordId,
+      reply: result.fullText,
+    });
 
     return { result };
   },

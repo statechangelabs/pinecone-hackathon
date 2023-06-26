@@ -1,6 +1,6 @@
-import { useAction } from "convex/react";
+import { useAction, useQuery, useQueries } from "convex/react";
 import { Field, Formik } from "formik";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../convex/_generated/api";
 import { Id } from "../convex/_generated/dataModel";
@@ -9,7 +9,10 @@ const Repo: FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const queryRepo = useAction(api.actions.queryRepoAction);
-  const [markdown, setMarkdown] = useState("");
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-ignore
+  const [replyId, setReplyId] = useState<Id<"anothertable">>("" as unknown);
+
   if (!id) navigate("/");
   if (!id) return <div>loading...</div>;
   return (
@@ -22,7 +25,8 @@ const Repo: FC = () => {
           platform,
           id: id as Id<"repos">,
         });
-        setMarkdown(answer.result.fullText);
+        // setMarkdown(answer.result.fullText);
+        setReplyId(answer.id as Id<"anothertable">);
         console.log("Oh noes I did query the repO!!!");
       }}
     >
@@ -55,12 +59,25 @@ const Repo: FC = () => {
             </button>
           </div>
           //see the answer
-          <article className="prose lg:prose-l">
-            <Markdown>{markdown}</Markdown>
-          </article>
+          {replyId && <Answer replyId={replyId} />}
         </div>
       )}
     </Formik>
   );
 };
 export default Repo;
+
+const Answer: FC<{ replyId: string }> = ({ replyId }) => {
+  const replyData = useQuery(api.anothertable.get, {
+    id: replyId as Id<"anothertable">,
+  });
+  const [markdown, setMarkdown] = useState("");
+  useEffect(() => {
+    if (replyData?.reply) setMarkdown(replyData.reply);
+  }, [replyData]);
+  return (
+    <article className="prose lg:prose-l">
+      <Markdown>{markdown}</Markdown>
+    </article>
+  );
+};
