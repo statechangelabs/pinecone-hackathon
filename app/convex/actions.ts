@@ -2,13 +2,7 @@
 import { action, internalAction } from "./_generated/server";
 import { api } from "./_generated/api";
 import { v } from "convex/values";
-import {
-  cacheRepo,
-  indexRepo,
-  //   runPrompt,
-  getRepoFromUrl,
-  runPrompt,
-} from "@raydeck/pinecone-hackathon";
+import { getRepoFromUrl, runPrompt } from "@raydeck/pinecone-hackathon";
 
 export const myAction = action({
   // Validators for arguments.
