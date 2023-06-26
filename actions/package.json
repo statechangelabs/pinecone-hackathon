@@ -1,6 +1,6 @@
 {
   "name": "@raydeck/pinecone-hackathon",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Pinecone Hackhaton project",
   "main": "lib/index.js",
   "repository": "https://github.com/statechangelabs/pinecone-hackathon.git",
